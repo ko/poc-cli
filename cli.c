@@ -57,7 +57,8 @@ int shell_proc()
         cmd_len = strlen(cmd);
         if (cmd_len < MAX_CMD_LEN)
         cmd[cmd_len] = next;
-        if (!strncmp(cmd, "exit\n", MAX_CMD_LEN))
+        // note the carriage return; not a newline
+        if (!strncmp(cmd, "exit\r", MAX_CMD_LEN))
             exit(0);
 
 
