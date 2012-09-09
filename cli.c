@@ -9,19 +9,29 @@
 
 int command_completion(char * partialcmd)
 {
-    int i;
+    int i, j;
+    char is_match = TRUE;
     char * s;
-    char matches[256];
+    char matches[256] = "";
     char * pm = matches;
     for (i = 0; i < cli_entries; i++) { 
         s = strstr(cli_list[i].name, partialcmd); 
-        printf("%d, %d\n", sizeof(partialcmd), strlen(partialcmd));
         if (s) {
-            pm = strncat(pm, s, sizeof(s));
-            pm = strncat(pm, " ", 1);
+            for (j = 0; j < strlen(s); j++) {
+                // not a match for completion
+                if (s[j] != cli_list[i].name[j]) {
+                    is_match = FALSE;
+                    break;
+                }
+            }
+            if (is_match) {
+                pm = strncat(pm, s, sizeof(s));
+                pm = strncat(pm, " ", 1);
+            }
+
         }
     }
-    printf("%s\n", matches);
+    printf("%s?", matches);
     return 0;
 }
 
@@ -49,6 +59,7 @@ int shell_proc()
                 command_completion(cmd);
                 break;
             case '\n':
+                // Did this even work?
                 if (!strncmp(cmd, "exit", MAX_CMD_LEN))
                     exit(0);
                 break;
@@ -59,6 +70,8 @@ int shell_proc()
         cmd[cmd_len] = next;
         // note the carriage return; not a newline
         if (!strncmp(cmd, "exit\r", MAX_CMD_LEN))
+            exit(0);
+        else if (!strncmp(cmd, "\rexit\r", MAX_CMD_LEN))
             exit(0);
 
 
