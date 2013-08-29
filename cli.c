@@ -19,6 +19,9 @@ int command_execute(char * cmd)
             break;
         }
     }
+    if (rc == -1) {
+        printf("Unknown commanad: %s\n", cmd);
+    }
     return rc;
 }
 
@@ -100,18 +103,7 @@ int shell_proc()
 
 int main(void) 
 {
-    int r1, r2;
-
-    /*
-    printf("%s: %d: %s\n", cli_list[0].name, r1, cli_list[0].desc);
-    printf("%s: %d: %s\n", cli_list[1].name, r2, cli_list[1].desc);
-    printf("%s: %d: %s\n", cli_list[2].name, r1, cli_list[2].desc);
-    printf("%s: %d: %s\n", cli_list[3].name, r2, cli_list[3].desc);
-    */
-
     shell_proc();
-
-
     return 0;
 }
 
