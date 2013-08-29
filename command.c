@@ -3,10 +3,10 @@
 #include "command.h"
 
 struct cli_command_t cli_list[] = {
-    {"foo", &foo, "foo"},
-    {"bar", &bar, "bar"},
-    {"foobar", &foobar, "foobar"},
-    {"barfoo", &barfoo, "barfoo"},
+    {"foo", &foo, "desc foo"},
+    {"bar", &bar, "desc bar"},
+    {"foobar", &foobar, "desc foobar"},
+    {"barfoo", &barfoo, "desc barfoo"},
 };
 
 unsigned int cli_entries = sizeof(cli_list) / sizeof(cli_command);
