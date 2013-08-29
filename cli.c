@@ -31,7 +31,7 @@ int command_completion(char * partialcmd)
 
         }
     }
-    printf("%s?", matches);
+    printf("\nDid you mean: %s", matches);
     return 0;
 }
 
@@ -86,9 +86,13 @@ int main(void)
 
     cli_list[0].fn(&r1);
     cli_list[1].fn(&r2);
+    cli_list[2].fn(&r1);
+    cli_list[3].fn(&r2);
 
     printf("%s: %d: %s\n", cli_list[0].name, r1, cli_list[0].desc);
     printf("%s: %d: %s\n", cli_list[1].name, r2, cli_list[1].desc);
+    printf("%s: %d: %s\n", cli_list[2].name, r1, cli_list[2].desc);
+    printf("%s: %d: %s\n", cli_list[3].name, r2, cli_list[3].desc);
 
     shell_proc();
 

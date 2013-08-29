@@ -2,8 +2,10 @@
 #include "command.h"
 
 struct cli_command_t cli_list[] = {
-    {"foo", &foo, "foobar"},
-    {"bar", &bar, "barfoo"},
+    {"foo", &foo, "foo"},
+    {"bar", &bar, "bar"},
+    {"foobar", &foobar, "foobar"},
+    {"barfoo", &barfoo, "barfoo"},
 };
 
 unsigned int cli_entries = sizeof(cli_list) / sizeof(cli_command);
@@ -23,4 +25,14 @@ int bar(int *res)
     return 0;
 }
 
+int barfoo(int *res)
+{
+    *res = 5;
+    return 3;
+}
 
+int foobar(int *res)
+{
+    *res = 6;
+    return 2;
+}
