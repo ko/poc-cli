@@ -6,7 +6,7 @@
 
 typedef struct cli_command_t {
     char name[64];
-    void (*fn)();
+    void *(*fn)();
     char desc[128];
 } cli_command;
 

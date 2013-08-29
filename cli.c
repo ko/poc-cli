@@ -3,9 +3,24 @@
 #include <stdio.h>
 #include <termios.h>
 #include <unistd.h>
+#include <stdint.h>
 
 #include "command.h"
 #include "cli.h"
+
+int command_execute(char * cmd)
+{
+    int i;
+    uint64_t rc = -1;
+    int args;   // TODO handle arguments
+    for (i = 0; i < cli_entries; i++) {
+        if (strcmp(cli_list[i].name, cmd) == 0) {
+            rc = (uint64_t)cli_list[i].fn(&args);
+            break;
+        }
+    }
+    return rc;
+}
 
 int command_completion(char * partialcmd)
 {
@@ -74,11 +89,12 @@ int shell_proc()
         else if (!strncmp(cmd, "\rexit\r", MAX_CMD_LEN))
             exit(0);
 
-        // run cmd
-        
-
-        if (next == '\n')
-            memset(cmd, 0, MAX_CMD_LEN);
+        // run cmd if newline hit
+       if (next == '\n') {
+           cmd[cmd_len] = 0;
+           command_execute(cmd);
+           memset(cmd, 0, MAX_CMD_LEN);
+       }
     }
 }
 
@@ -86,15 +102,12 @@ int main(void)
 {
     int r1, r2;
 
-    cli_list[0].fn(&r1);
-    cli_list[1].fn(&r2);
-    cli_list[2].fn(&r1);
-    cli_list[3].fn(&r2);
-
+    /*
     printf("%s: %d: %s\n", cli_list[0].name, r1, cli_list[0].desc);
     printf("%s: %d: %s\n", cli_list[1].name, r2, cli_list[1].desc);
     printf("%s: %d: %s\n", cli_list[2].name, r1, cli_list[2].desc);
     printf("%s: %d: %s\n", cli_list[3].name, r2, cli_list[3].desc);
+    */
 
     shell_proc();
 
