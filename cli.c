@@ -44,6 +44,7 @@ int command_completion(char * partialcmd)
     char matches[256] = "";
     char * pm = matches;
     for (i = 0; i < cli_entries; i++) { 
+        is_match = TRUE;    // reset the is_match counter every potential cmd
         s = strstr(cli_list[i].name, partialcmd); 
         if (s) {
             for (j = 0; j < strlen(s); j++) {
