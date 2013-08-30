@@ -13,6 +13,17 @@ int command_execute(char * cmd)
     int i;
     uint64_t rc = -1;
     int args;   // TODO handle arguments
+
+    // check for invalid cmd
+    int cmd_len = strlen(cmd);
+    if (cmd_len == 0) {
+        return rc;
+    } else {
+        // ignore tab completion attempts
+        if (cmd[cmd_len-1] == '\t')
+            return rc;
+    }
+
     for (i = 0; i < cli_entries; i++) {
         if (strcmp(cli_list[i].name, cmd) == 0) {
             rc = (uint64_t)cli_list[i].fn(&args);
@@ -80,6 +91,8 @@ int shell_proc()
                 // Did this even work?
                 if (!strncmp(cmd, "exit", MAX_CMD_LEN))
                     exit(0);
+                // On newline, execute cmd
+                command_execute(cmd);
                 break;
         }
 
@@ -92,10 +105,7 @@ int shell_proc()
         else if (!strncmp(cmd, "\rexit\r", MAX_CMD_LEN))
             exit(0);
 
-        // run cmd if newline hit
        if (next == '\n') {
-           cmd[cmd_len] = 0;
-           command_execute(cmd);
            memset(cmd, 0, MAX_CMD_LEN);
        }
     }
